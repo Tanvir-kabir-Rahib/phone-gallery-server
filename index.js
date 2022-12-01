@@ -22,6 +22,14 @@ async function run() {
             const result = await categoryCollection.find(query).toArray();
             res.send(result)
         })
+
+        app.get('/user/:email', async(req, res)=>{
+            const email = req.params.email;
+            const currentUserQuery = {email: email};
+            const currentUser = await usersCollections.findOne(currentUserQuery);
+            res.send(currentUser)
+        })
+
         app.post('/users', async (req, res) => {
             const user = req.body;
             const currentUserEmail = user.email;
