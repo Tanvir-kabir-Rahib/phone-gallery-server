@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors')
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
@@ -18,7 +18,9 @@ async function run() {
         const categoryCollection = client.db("phoneGallery").collection("phoneCategory");
         const usersCollections = client.db("phoneGallery").collection("users")
         const productsCollections = client.db("phoneGallery").collection("products")
-        const advertiseCollections = client.db("phoneGallery").collection("products")
+        const advertiseCollections = client.db("phoneGallery").collection("advertise")
+        const ordersCollections = client.db("phoneGallery").collection("orders")
+
         app.get('/category', async (req, res) => {
             const query = {};
             const result = await categoryCollection.find(query).toArray();
@@ -36,6 +38,13 @@ async function run() {
             const email = req.query.email;
             const query = {sellerEmail:email};
             const result = await productsCollections.find(query).toArray();
+            res.send(result)
+        })
+
+        app.get('/orders', async(req, res) => {
+            const queryEmail = req.query.email;
+            const query = {buyerEmail : queryEmail};
+            const result = await ordersCollections.find(query).toArray();
             res.send(result)
         })
 
@@ -99,9 +108,30 @@ async function run() {
             const result = await productsCollections.insertOne(product)
             res.send(result)
         })
+
         app.post('/advertise', async (req, res) => {
             const product = req.body;
             const result = await advertiseCollections.insertOne(product)
+            res.send(result)
+        })
+
+        app.post('/orders', async(req, res) => {
+            const orderedProduct = req.body;
+            const result = await ordersCollections.insertOne(product)
+            res.send(result)
+        })
+
+        app.delete('/products', async (req, res) => {
+            const productId = req.query.id;
+            const query = {_id:ObjectId(productId)};
+            const result = await productsCollections.deleteOne(query);
+            res.send(result)
+        })
+
+        app.delete('/advertise', async (req, res) => {
+            const mainId = req.query.id;
+            const query = {mainId:mainId};
+            const result = await advertiseCollections.deleteOne(query);
             res.send(result)
         })
 
