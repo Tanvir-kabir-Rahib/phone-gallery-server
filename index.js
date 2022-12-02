@@ -18,6 +18,7 @@ async function run() {
         const categoryCollection = client.db("phoneGallery").collection("phoneCategory");
         const usersCollections = client.db("phoneGallery").collection("users")
         const productsCollections = client.db("phoneGallery").collection("products")
+        const advertiseCollections = client.db("phoneGallery").collection("products")
         app.get('/category', async (req, res) => {
             const query = {};
             const result = await categoryCollection.find(query).toArray();
@@ -32,10 +33,12 @@ async function run() {
         })
 
         app.get('/products', async (req, res) => {
-            const query = {};
+            const email = req.query.email;
+            const query = {sellerEmail:email};
             const result = await productsCollections.find(query).toArray();
             res.send(result)
         })
+
 
         app.get('/users/sellers', async (req, res) =>{
             const query = {userType: "Seller"};
@@ -47,6 +50,12 @@ async function run() {
             const query = {userType: "Buyer"};
             const buyers = await usersCollections.find(query).toArray();
             res.send(buyers)
+        })
+
+        app.get('/advertise', async(req, res) => {
+            const query = {};
+            const advertised = await advertiseCollections.find(query).toArray();
+            res.send(advertised)
         })
 
         app.get('/users/admin/:email', async (req, res) => {
@@ -61,7 +70,7 @@ async function run() {
             const email = req.params.email;
             const query = { email }
             const user = await usersCollections.findOne(query);
-            if (user.userType === "Seller") {
+            if (user?.userType === "Seller") {
                 res.send({ isSeller: true });
             }
         })
@@ -88,6 +97,11 @@ async function run() {
         app.post('/products', async (req, res) => {
             const product = req.body;
             const result = await productsCollections.insertOne(product)
+            res.send(result)
+        })
+        app.post('/advertise', async (req, res) => {
+            const product = req.body;
+            const result = await advertiseCollections.insertOne(product)
             res.send(result)
         })
 
