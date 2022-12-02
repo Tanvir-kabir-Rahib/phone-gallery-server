@@ -66,6 +66,13 @@ async function run() {
             }
         })
 
+        app.get('/category/:id', async (req, res) => {
+            const categoryId = req.params.id;
+            const query = {productCategoryId:categoryId};
+            const result = await productsCollections.find(query).toArray();
+            res.send(result)
+        })
+
         app.post('/users', async (req, res) => {
             const user = req.body;
             const currentUserEmail = user.email;
