@@ -84,6 +84,13 @@ async function run() {
             res.send(result)
         })
 
+        app.delete('/users', async (req, res) => {
+            const userEmail = req.query.email;
+            const query = {email:userEmail};
+            const result = await usersCollections.deleteOne(query);
+            res.send(result)
+        })
+
     }
     finally {
 
