@@ -37,6 +37,18 @@ async function run() {
             res.send(result)
         })
 
+        app.get('/users/sellers', async (req, res) =>{
+            const query = {userType: "Seller"};
+            const sellers = await usersCollections.find(query).toArray();
+            res.send(sellers)
+        })
+
+        app.get('/users/buyers', async (req, res) =>{
+            const query = {userType: "Buyer"};
+            const buyers = await usersCollections.find(query).toArray();
+            res.send(buyers)
+        })
+
         app.get('/users/admin/:email', async (req, res) => {
             const email = req.params.email;
             const query = { email }
