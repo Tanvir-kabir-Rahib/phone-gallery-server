@@ -36,32 +36,32 @@ async function run() {
 
         app.get('/products', async (req, res) => {
             const email = req.query.email;
-            const query = {sellerEmail:email};
+            const query = { sellerEmail: email };
             const result = await productsCollections.find(query).toArray();
             res.send(result)
         })
 
-        app.get('/orders', async(req, res) => {
+        app.get('/orders', async (req, res) => {
             const queryEmail = req.query.email;
-            const query = {buyerEmail : queryEmail};
+            const query = { buyerEmail: queryEmail };
             const result = await ordersCollections.find(query).toArray();
             res.send(result)
         })
 
 
-        app.get('/users/sellers', async (req, res) =>{
-            const query = {userType: "Seller"};
+        app.get('/users/sellers', async (req, res) => {
+            const query = { userType: "Seller" };
             const sellers = await usersCollections.find(query).toArray();
             res.send(sellers)
         })
 
-        app.get('/users/buyers', async (req, res) =>{
-            const query = {userType: "Buyer"};
+        app.get('/users/buyers', async (req, res) => {
+            const query = { userType: "Buyer" };
             const buyers = await usersCollections.find(query).toArray();
             res.send(buyers)
         })
 
-        app.get('/advertise', async(req, res) => {
+        app.get('/advertise', async (req, res) => {
             const query = {};
             const advertised = await advertiseCollections.find(query).toArray();
             res.send(advertised)
@@ -86,7 +86,7 @@ async function run() {
 
         app.get('/category/:id', async (req, res) => {
             const categoryId = req.params.id;
-            const query = {productCategoryId:categoryId};
+            const query = { productCategoryId: categoryId };
             const result = await productsCollections.find(query).toArray();
             res.send(result)
         })
@@ -115,7 +115,7 @@ async function run() {
             res.send(result)
         })
 
-        app.post('/orders', async(req, res) => {
+        app.post('/orders', async (req, res) => {
             const orderedProduct = req.body;
             const result = await ordersCollections.insertOne(orderedProduct)
             res.send(result)
@@ -123,21 +123,21 @@ async function run() {
 
         app.delete('/products', async (req, res) => {
             const productId = req.query.id;
-            const query = {_id:ObjectId(productId)};
+            const query = { _id: ObjectId(productId) };
             const result = await productsCollections.deleteOne(query);
             res.send(result)
         })
 
         app.delete('/advertise', async (req, res) => {
-            const mainId = req.query.id;
-            const query = {mainId:mainId};
+            const id = req.query.id;
+            const query = { mainId:id };
             const result = await advertiseCollections.deleteOne(query);
             res.send(result)
         })
 
         app.delete('/users', async (req, res) => {
             const userEmail = req.query.email;
-            const query = {email:userEmail};
+            const query = { email: userEmail };
             const result = await usersCollections.deleteOne(query);
             res.send(result)
         })
