@@ -62,8 +62,8 @@ async function run() {
         })
 
         app.get('/advertise', async (req, res) => {
-            const query = {};
-            const advertised = await advertiseCollections.find(query).toArray();
+            const query = {status: 'Advertised'};
+            const advertised = await productsCollections.find(query).toArray();
             res.send(advertised)
         })
 
@@ -109,15 +109,21 @@ async function run() {
             res.send(result)
         })
 
-        app.post('/advertise', async (req, res) => {
-            const product = req.body;
-            const result = await advertiseCollections.insertOne(product)
-            res.send(result)
-        })
-
         app.post('/orders', async (req, res) => {
             const orderedProduct = req.body;
             const result = await ordersCollections.insertOne(orderedProduct)
+            res.send(result)
+        })
+
+        app.put('/products/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const advertised = {
+                $set: {
+                    status: 'Advertised'
+                }
+            }
+            const result = await productsCollections.updateOne(query, advertised, {upsert:true});
             res.send(result)
         })
 
@@ -125,13 +131,6 @@ async function run() {
             const productId = req.query.id;
             const query = { _id: ObjectId(productId) };
             const result = await productsCollections.deleteOne(query);
-            res.send(result)
-        })
-
-        app.delete('/advertise', async (req, res) => {
-            const id = req.query.id;
-            const query = { mainId:id };
-            const result = await advertiseCollections.deleteOne(query);
             res.send(result)
         })
 
