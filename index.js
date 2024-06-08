@@ -10,7 +10,7 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.thwifey.mongodb.net/?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@phonegallery.t7tdeyx.mongodb.net/?retryWrites=true&w=majority&appName=PhoneGallery`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 
 async function run() {

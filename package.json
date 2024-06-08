@@ -1,7 +1,6 @@
 {
   "name": "phone-gallery-server",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -18,5 +17,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.12.1",
     "vercel": "^28.6.0"
-  }
+  },
+  "devDependencies": {},
+  "description": ""
 }
